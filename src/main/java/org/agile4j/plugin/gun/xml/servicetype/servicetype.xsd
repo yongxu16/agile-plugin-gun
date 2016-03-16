@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <xs:element name="serviceType">
+    <xs:complexType>
+      <xs:sequence>
+      	<xs:choice maxOccurs="unbounded">
+	        <xs:element ref="description"/>
+	        <xs:element maxOccurs="unbounded" ref="service"/>
+        </xs:choice>
+        </xs:sequence>
+      <xs:attribute name="id" use="optional" type="xs:string"/>
+      <xs:attribute name="kind" use="optional" type="xs:string"/>
+      <xs:attribute name="longname" use="optional" type="xs:string"/>
+      <xs:attribute name="package" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="service">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="description"/>
+        <xs:element ref="interface"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="optional" type="xs:string"/>
+      <xs:attribute name="longname" use="optional"/>
+      <xs:attribute name="name" use="optional" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="interface">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="input"/>
+        <xs:element ref="output"/>
+        <xs:element ref="property"/>
+        <xs:element ref="printer"/>
+      </xs:sequence>
+      <xs:attribute name="package" use="optional" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="input">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="field"/>
+        <xs:element ref="fields"/>
+      </xs:choice>
+      <xs:attribute name="packMode" use="optional" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="output">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="field"/>
+        <xs:element ref="fields"/>
+      </xs:choice>
+      <xs:attribute name="asParm" use="optional" type="xs:boolean"/>
+      <xs:attribute name="packMode" use="optional" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="property">
+    <xs:complexType>
+      <xs:attribute name="packMode" use="optional" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="printer">
+    <xs:complexType>
+      <xs:attribute name="packMode" use="optional" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="description" type="xs:string"/>
+  <xs:element name="field">
+    <xs:complexType>
+      <xs:attribute name="array" use="optional" type="xs:boolean"/>
+      <xs:attribute name="default" use="optional" />
+      <xs:attribute name="desc" use="optional" />
+      <xs:attribute name="fixed" use="optional" />
+      <xs:attribute name="id" use="optional" type="xs:string"/>
+      <xs:attribute name="longname" use="optional"/>
+      <xs:attribute name="multi" use="optional" type="xs:boolean"/>
+      <xs:attribute name="ref" type="xs:string"/>
+      <xs:attribute name="required" use="optional" type="xs:boolean"/>
+      <xs:attribute name="type" use="optional" type="xs:string"/>
+      <xs:attribute name="enums" use="optional" type="xs:string"/>
+      <xs:attribute name="alias" use="optional" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fields">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="field"/>
+        <xs:element ref="fields"/>
+      </xs:choice>
+      <xs:attribute name="array" use="optional" type="xs:boolean"/>
+      <xs:attribute name="id" use="optional" type="xs:string"/>
+      <xs:attribute name="longname" use="optional" type="xs:string"/>
+      <xs:attribute name="multi" use="optional" type="xs:boolean"/>
+      <xs:attribute name="required" use="optional" type="xs:boolean"/>
+      <xs:attribute name="scope" use="optional" type="xs:string"/>
+      <xs:attribute name="desc" use="optional" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sqls id="FmBusiScxc" longname="上存下拆资金管理sql维护" >
+    <description><![CDATA[上存下拆资金管理sql维护]]></description>
+    <select cache="none" method="selectAll" type="sql" id="sel_kfmb_scxc_brchno" longname="查找上存下拆机构号">
+        <sql type="oracle"><![CDATA[
+        select distinct a.shnqlrjg as jigouhao, a.farendma as farendma, #jiaoyirq# as jiaoyirq
+        from kfmb_scxcht a
+        where (a.scxcztai ='2' or a.scxcztai='5')
+        and a.farendma = #farendma# 
+        and exists(
+	        select 1 from kbrp_jgcshu b where b.jigoleix='2'
+	        and  b.jigouhao = a.shnqlrjg
+	        and b.farendma = a.farendma)
+           ]]></sql>
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="AcDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="jiaoyirq" ref="AcDict.Dict.jiaoyirq" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="交易日期" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmStruct.FmBatchInfo"/>
+    </select>
+    <dynamicSelect cache="none" method="selectPage" type="sql" id="sel_kfmb_scxc_dynatic_page_query" longname="上存下拆动态查询">
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="AcDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="scxcheth" ref="AcDict.Dict.scxcheth" jdbcType="VARCHAR" javaType="BaseType.U_HTONGHAO" mode="in" longname="上存下拆合同号" parameterType="condition"/>
+            <parameter property="cuncywzl" ref="AcDict.Dict.cuncywzl" jdbcType="VARCHAR" javaType="BaseEnumType.E_CUNCYWZL" mode="in" longname="资金合同类型" parameterType="condition"/>
+            <parameter property="shnqlrjg" ref="AcDict.Dict.shnqlrjg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="申请机构" parameterType="condition"/>
+            <parameter property="scxcztai" ref="AcDict.Dict.scxcztai" jdbcType="VARCHAR" javaType="BaseEnumType.E_SCXCZTAI" mode="in" longname="资金合同状态" parameterType="condition"/>
+            <parameter property="sqqsriqi" ref="AcDict.Dict.sqqsriqi" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="申请起始日期" parameterType="condition"/>
+            <parameter property="sqjzriqi" ref="AcDict.Dict.sqjzriqi" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="申请结束日期" parameterType="condition"/>
+            <parameter property="duifjgdh" ref="AcDict.Dict.duifjgdh" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="对方机构代号" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_scxcht"/>
+        <dynamicSql type="oracle">
+            <str type="Str"><![CDATA[select * from kfmb_scxcht]]></str>
+            <where type="Where">
+                <and type="And">
+                    <str type="Str"><![CDATA[farendma = #farendma# ]]></str>
+                    <if test="scxcheth!=null&amp;&amp;scxcheth!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ scxcheth = #scxcheth#]]></str>
+                    </if>
+                    <if test="cuncywzl!=null" type="If">
+                        <str type="Str"><![CDATA[ cuncywzl = #cuncywzl# ]]></str>
+                    </if>
+                    <if test="shnqlrjg!=null&amp;&amp;shnqlrjg!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ shnqlrjg = #shnqlrjg#]]></str>
+                    </if>
+                    <if test="scxcztai!=null" type="If">
+                        <str type="Str"><![CDATA[ scxcztai = #scxcztai#]]></str>
+                    </if>
+                    <if test="sqqsriqi!=null&amp;&amp;sqqsriqi!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ sqinriqi >= #sqqsriqi#]]></str>
+                    </if>
+                    <if test="sqjzriqi!=null&amp;&amp;sqjzriqi!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ sqinriqi <= #sqjzriqi#]]></str>
+                    </if>
+                    <if test="duifjgdh!=null&amp;&amp;duifjgdh!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[duifjgdh = #duifjgdh#]]></str>
+                    </if>
+                </and>
+            </where>
+            <str type="Str"><![CDATA[order by scxcheth asc]]></str>
+        </dynamicSql>
+    </dynamicSelect>
+    <dynamicSelect cache="none" method="selectAll" type="sql" id="sel_kfmb_scxc_dynatic_query" longname="上存下拆动态查询">
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="AcDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="scxcheth" ref="AcDict.Dict.scxcheth" jdbcType="VARCHAR" javaType="BaseType.U_HTONGHAO" mode="in" longname="上存下拆合同号" parameterType="condition"/>
+            <parameter property="cuncywzl" ref="AcDict.Dict.cuncywzl" jdbcType="VARCHAR" javaType="BaseEnumType.E_CUNCYWZL" mode="in" longname="资金合同类型" parameterType="condition"/>
+            <parameter property="shnqlrjg" ref="AcDict.Dict.shnqlrjg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="申请机构" parameterType="condition"/>
+            <parameter property="scxcztai" ref="AcDict.Dict.scxcztai" jdbcType="VARCHAR" javaType="BaseEnumType.E_SCXCZTAI" mode="in" longname="资金合同状态" parameterType="condition"/>
+            <parameter property="sqqsriqi" ref="AcDict.Dict.sqqsriqi" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="申请起始日期" parameterType="condition"/>
+            <parameter property="sqjzriqi" ref="AcDict.Dict.sqjzriqi" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="申请结束日期" parameterType="condition"/>
+            <parameter property="duifjgdh" ref="AcDict.Dict.duifjgdh" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="对方机构代号" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_scxcht"/>
+        <dynamicSql type="oracle">
+            <str type="Str"><![CDATA[select * from kfmb_scxcht]]></str>
+            <where type="Where">
+                <and type="And">
+                    <str type="Str"><![CDATA[farendma = #farendma# ]]></str>
+                    <if test="scxcheth!=null&amp;&amp;scxcheth!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ scxcheth = #scxcheth#]]></str>
+                    </if>
+                    <if test="cuncywzl!=null" type="If">
+                        <str type="Str"><![CDATA[ cuncywzl = #cuncywzl# ]]></str>
+                    </if>
+                    <if test="shnqlrjg!=null&amp;&amp;shnqlrjg!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ shnqlrjg = #shnqlrjg#]]></str>
+                    </if>
+                    <if test="scxcztai!=null" type="If">
+                        <str type="Str"><![CDATA[ scxcztai = #scxcztai#]]></str>
+                    </if>
+                    <if test="sqqsriqi!=null&amp;&amp;sqqsriqi!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ sqinriqi >= #sqqsriqi#]]></str>
+                    </if>
+                    <if test="sqjzriqi!=null&amp;&amp;sqjzriqi!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ sqinriqi <= #sqjzriqi#]]></str>
+                    </if>
+                    <if test="duifjgdh!=null&amp;&amp;duifjgdh!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[duifjgdh = #duifjgdh#]]></str>
+                    </if>
+                </and>
+            </where>
+            <str type="Str"><![CDATA[order by scxcheth asc]]></str>
+        </dynamicSql>
+    </dynamicSelect>
+    <dynamicSelect cache="none" method="selectPage" type="sql" id="sel_kfmb_zqgh_dynatic_page_query" longname="支取归还动态查询">
+        <parameterMap class="java.util.Map">
+            <parameter property="scxcheth" ref="AcDict.Dict.scxcheth" jdbcType="VARCHAR" javaType="BaseType.U_HTONGHAO" mode="in" longname="上存下拆合同号" parameterType="condition"/>
+            <parameter property="zqghleix" ref="AcDict.Dict.zqghleix" jdbcType="VARCHAR" javaType="BaseEnumType.E_CUNCYWZL" mode="in" longname="支取归还类型" parameterType="condition"/>
+            <parameter property="shnqlrjg" ref="AcDict.Dict.shnqlrjg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="申请机构" parameterType="condition"/>
+            <parameter property="zqghztai" ref="AcDict.Dict.zqghztai" jdbcType="VARCHAR" javaType="BaseEnumType.E_SCXCZTAI" mode="in" longname="支取归还状态" parameterType="condition"/>
+            <parameter property="sqqsriqi" ref="AcDict.Dict.sqqsriqi" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="申请起始日期" parameterType="condition"/>
+            <parameter property="sqjzriqi" ref="AcDict.Dict.sqjzriqi" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="申请结束日期" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_zqghht"/>
+        <dynamicSql type="oracle">
+            <str type="Str"><![CDATA[select * from kfmb_zqghht]]></str>
+            <where type="Where">
+                <and type="And">
+                    <if test="scxcheth!=null&amp;&amp;scxcheth!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[scxcheth=#scxcheth#]]></str>
+                    </if>
+                    <if test="zqghleix!=null" type="If">
+                        <str type="Str"><![CDATA[zqghleix=#zqghleix#]]></str>
+                    </if>
+                    <if test="shnqlrjg!=null&amp;&amp;shnqlrjg!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[shnqlrjg=#shnqlrjg#]]></str>
+                    </if>
+                    <if test="zqghztai!=null" type="If">
+                        <str type="Str"><![CDATA[zqghztai =#zqghztai#]]></str>
+                    </if>
+                    <if test="sqqsriqi!=null&amp;&amp;sqqsriqi!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ sqinriqi >= #sqqsriqi#]]></str>
+                    </if>
+                    <if test="sqjzriqi!=null&amp;&amp;sqjzriqi!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ sqinriqi <= #sqjzriqi#]]></str>
+                    </if>
+                </and>
+            </where>
+            <str type="Str"><![CDATA[order by zqghheth asc]]></str>
+        </dynamicSql>
+    </dynamicSelect>
+    <dynamicSelect cache="none" method="selectAll" type="sql" id="sel_kfmb_zqgh_dynatic_query" longname="支取归还动态查询">
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="AcDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="zqghleix" ref="AcDict.Dict.zqghleix" jdbcType="VARCHAR" javaType="BaseEnumType.E_CUNCYWZL" mode="in" longname="支取归还类型" parameterType="condition"/>
+            <parameter property="shnqlrjg" ref="AcDict.Dict.shnqlrjg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="申请机构" parameterType="condition"/>
+            <parameter property="zqghztai" ref="AcDict.Dict.zqghztai" jdbcType="VARCHAR" javaType="BaseEnumType.E_SCXCZTAI" mode="in" longname="支取归还状态" parameterType="condition"/>
+            <parameter property="sqinriqi" ref="AcDict.Dict.sqinriqi" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="申请日期" parameterType="condition"/>
+            <parameter property="duifjgdh" ref="AcDict.Dict.duifjgdh" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="对方机构代号" parameterType="condition"/>
+            <parameter property="scxcheth" ref="AcDict.Dict.scxcheth" jdbcType="VARCHAR" javaType="BaseType.U_HTONGHAO" mode="in" longname="上存下拆合同号" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_zqghht"/>
+        <dynamicSql type="oracle">
+            <str type="Str"><![CDATA[select * from kfmb_zqghht]]></str>
+            <where type="Where">
+                <and type="And">
+                    <str type="Str"><![CDATA[farendma = #farendma# ]]></str>
+                    <if test="zqghleix!=null" type="If">
+                        <str type="Str"><![CDATA[zqghleix= #zqghleix#]]></str>
+                    </if>
+                    <if test="shnqlrjg!=null&amp;&amp;shnqlrjg!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[shnqlrjg= #shnqlrjg#]]></str>
+                    </if>
+                    <if test="zqghztai!=null" type="If">
+                        <str type="Str"><![CDATA[zqghztai =#zqghztai#]]></str>
+                    </if>
+                    <if test="sqinriqi!=null&amp;&amp;sqinriqi!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ sqinriqi = #sqinriqi#]]></str>
+                    </if>
+                    <if test="duifjgdh!=null&amp;&amp;duifjgdh!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[duifjgdh=#duifjgdh#]]></str>
+                    </if>
+                    <if test="scxcheth!=null&amp;&amp;scxcheth!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[scxcheth=#scxcheth#]]></str>
+                    </if>
+                </and>
+            </where>
+            <str type="Str"><![CDATA[order by scxcheth asc]]></str>
+        </dynamicSql>
+    </dynamicSelect>
+    <select cache="none" method="selectOne" type="sql" id="getZjjxLius" longname="获取存放活期账户交易明细流水">
+        <sql type="oracle"><![CDATA[select kfmb_zjjxdj_seq.nextval from dual]]></sql>
+        <parameterMap class="java.util.Map"/>
+        <resultMap class="long"/>
+    </select>
+    <select cache="none" method="selectOne" type="sql" id="getZjjtLius" longname="获取存放活期账户交易明细流水">
+        <sql type="oracle"><![CDATA[select kfmb_zjjtdj_seq.nextval from dual]]></sql>
+        <parameterMap class="java.util.Map"/>
+        <resultMap class="long"/>
+    </select>
+    <select cache="none" method="selectAll" type="sql" id="sel_kfmb_scxc_auto_query" longname="资金自动处理数据查询">
+        <sql type="oracle" desc="对到期日为当前系统日期的已入账的上存下借合同做处理"><![CDATA[select * 
+			from kfmb_scxcht
+			where farendma = #farendma#
+			and daoqiriq <= #jiaoyirq#
+			and shnqlrjg = #jiaoyijg#
+			and cuncywzl = #cuncywzl#
+			and hetongye>0
+			and scxcztai = '2']]></sql>
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="AcDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="jiaoyirq" ref="AcDict.Dict.jiaoyirq" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="交易日期" parameterType="condition"/>
+            <parameter property="jiaoyijg" ref="AcDict.Dict.jiaoyijg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="交易机构" parameterType="condition"/>
+            <parameter property="cuncywzl" ref="AcDict.Dict.cuncywzl" jdbcType="VARCHAR" javaType="BaseEnumType.E_CUNCYWZL" mode="in" longname="资金合同类别" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_scxcht"/>
+    </select>
+    <select cache="none" method="selectAll" type="sql" id="sel_kfmb_scxc_jiti_query" longname="上存下拆计提查询">
+        <sql type="oracle" desc="对每个机构下的资金合同按类别分开计提"><![CDATA[
+        select *
+		from kfmb_scxcht
+		where farendma = #farendma#
+		and shnqlrjg = #jiaoyijg#
+		and cuncywzl = #cuncywzl#
+		and scxcztai = '2'
+		and hetongye>0
+     ]]></sql>
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="AcDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="jiaoyijg" ref="AcDict.Dict.jiaoyijg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="交易机构" parameterType="condition"/>
+            <parameter property="cuncywzl" ref="AcDict.Dict.cuncywzl" jdbcType="VARCHAR" javaType="BaseEnumType.E_CUNCYWZL" mode="in" longname="资金合同类别" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_scxcht"/>
+    </select>
+    <dynamicSelect cache="none" method="selectPage" type="sql" id="sel_kfmb_zjjtdj_dymic" longname="资金计提登记薄动态查询">
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="AcDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="shangjjg" ref="AcDict.Dict.shangjjg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="上级机构" parameterType="condition"/>
+            <parameter property="xiajijig" ref="AcDict.Dict.xiajijig" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="下级机构" parameterType="condition"/>
+            <parameter property="cuncywzl" ref="AcDict.Dict.cuncywzl" jdbcType="VARCHAR" javaType="BaseEnumType.E_CUNCYWZL" mode="in" longname="资金合同类型" parameterType="condition"/>
+            <parameter property="huobdaih" ref="AcDict.Dict.huobdaih" jdbcType="VARCHAR" javaType="BaseEnumType.E_HUOBDAIH" mode="in" longname="货币代号" parameterType="condition"/>
+            <parameter property="qishiriq" ref="AcDict.Dict.qishiriq" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="起始日期" parameterType="condition"/>
+            <parameter property="daoqiriq" ref="AcDict.Dict.daoqiriq" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="到期日期" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_zjjtdj"/>
+        <dynamicSql type="oracle">
+            <str type="Str"><![CDATA[select * from kfmb_zjjtdj]]></str>
+            <where type="Where">
+                <and type="And">
+                    <str type="Str"><![CDATA[farendma=#farendma#]]></str>
+                    <if test="shangjjg!=null&amp;&amp;shangjjg!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[shangjjg=#shangjjg#]]></str>
+                    </if>
+                    <if test="xiajijig!=null&amp;&amp;xiajijig!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[xiajijig=#xiajijig#]]></str>
+                    </if>
+                    <if test="cuncywzl!=null" type="If">
+                        <str type="Str"><![CDATA[cuncywzl=#cuncywzl#]]></str>
+                    </if>
+                    <if test="huobdaih!=null" type="If">
+                        <str type="Str"><![CDATA[huobdaih=#huobdaih#]]></str>
+                    </if>
+                    <if test="qishiriq!=null&amp;&amp;qishiriq!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ jiaoyirq>=#qishiriq#]]></str>
+                    </if>
+                    <if test="daoqiriq!=null&amp;&amp;daoqiriq!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ jiaoyirq<=#daoqiriq#]]></str>
+                    </if>
+                </and>
+            </where>
+            <str type="Str"><![CDATA[order by jiaoyixh asc]]></str>
+        </dynamicSql>
+    </dynamicSelect>
+    <dynamicSelect cache="none" method="selectPage" type="sql" id="sel_kfmb_zjjxdj_dymic" longname="资金结息登记薄动态查询">
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="AcDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="shangjjg" ref="AcDict.Dict.shangjjg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="上级机构" parameterType="condition"/>
+            <parameter property="xiajijig" ref="AcDict.Dict.xiajijig" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="下级机构" parameterType="condition"/>
+            <parameter property="zjjiexzl" ref="AcDict.Dict.zjjiexzl" jdbcType="VARCHAR" javaType="BaseEnumType.E_ZJJIEXZL" mode="in" longname="资金结息种类" parameterType="condition"/>
+            <parameter property="huobdaih" ref="AcDict.Dict.huobdaih" jdbcType="VARCHAR" javaType="BaseEnumType.E_HUOBDAIH" mode="in" longname="货币代号" parameterType="condition"/>
+            <parameter property="qishiriq" ref="AcDict.Dict.qishiriq" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="起始日期" parameterType="condition"/>
+            <parameter property="daoqiriq" ref="AcDict.Dict.daoqiriq" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="到期日期" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_zjjxdj"/>
+        <dynamicSql type="oracle">
+            <str type="Str"><![CDATA[select * from kfmb_zjjxdj]]></str>
+            <where type="Where">
+                <and type="And">
+                    <str type="Str"><![CDATA[farendma=#farendma#]]></str>
+                    <if test="shangjjg!=null&amp;&amp;shangjjg!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[shangjjg=#shangjjg#]]></str>
+                    </if>
+                    <if test="xiajijig!=null&amp;&amp;xiajijig!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[xiajijig=#xiajijig#]]></str>
+                    </if>
+                    <if test="zjjiexzl!=null" type="If">
+                        <str type="Str"><![CDATA[zjjiexzl=#zjjiexzl#]]></str>
+                    </if>
+                    <if test="huobdaih!=null" type="If">
+                        <str type="Str"><![CDATA[huobdaih=#huobdaih#]]></str>
+                    </if>
+                    <if test="qishiriq!=null&amp;&amp;qishiriq!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ jiaoyirq>=#qishiriq#]]></str>
+                    </if>
+                    <if test="daoqiriq!=null&amp;&amp;daoqiriq!=&quot;&quot;" type="If">
+                        <str type="Str"><![CDATA[ jiaoyirq<=#daoqiriq#]]></str>
+                    </if>
+                </and>
+            </where>
+            <str type="Str"><![CDATA[order by jiaoyixh asc]]></str>
+        </dynamicSql>
+    </dynamicSelect>
+    <select cache="none" method="selectPage" type="sql" id="chk_gyzz_scxcht_wsp" longname="扎帐未审批合同检索">
+        <sql type="oracle"><![CDATA[select * 
+from kfmb_scxcht
+where farendma=#farendma#
+and sqinriqi=#jiaoyirq#
+and shnqlrjg=#zhyngyjg#
+and scxcztai in('0','1','3')
+order by sqinriqi,shnqlrjg]]></sql>
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="TaDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="jiaoyirq" ref="TaDict.Dict.jiaoyirq" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="交易日期" parameterType="condition"/>
+            <parameter property="zhyngyjg" ref="TaDict.Dict.zhyngyjg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="账户营业机构" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_scxcht"/>
+    </select>
+    <select cache="none" method="selectPage" type="sql" id="chk_gyzz_scxcht_dqjc" longname="扎帐上存下拆到期合同检索">
+        <sql type="oracle"><![CDATA[select * 
+from kfmb_scxcht
+where farendma=#farendma#
+and daoqiriq=#jiaoyirq#
+and shnqlrjg=#zhyngyjg#
+and scxcztai ='2'
+order by scxcheth]]></sql>
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="TaDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="jiaoyirq" ref="TaDict.Dict.jiaoyirq" jdbcType="VARCHAR" javaType="BaseType.U_BZRIQILX" mode="in" longname="交易日期" parameterType="condition"/>
+            <parameter property="zhyngyjg" ref="TaDict.Dict.zhyngyjg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="账户营业机构" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_scxcht"/>
+    </select>
+    <select cache="none" method="selectPage" type="sql" id="chk_gyzz_scxcht_htzt" longname="上存下拆合同状态检查">
+        <sql type="oracle"><![CDATA[select * 
+from kfmb_scxcht
+where farendma=#farendma#
+and ( shnqlrjg=#zhyngyjg#
+or duifjgdh=#zhyngyjg# )
+and scxcztai not in ('3','4','5')
+order by scxcheth]]></sql>
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="TaDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="zhyngyjg" ref="TaDict.Dict.zhyngyjg" jdbcType="VARCHAR" javaType="BaseType.U_JIGOUHAO" mode="in" longname="账户营业机构" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_scxcht"/>
+    </select>
+    <select cache="none" method="selectOne" type="sql" id="sel_kfmb_zqghht_by_scxcht" longname="按上存下拆合同号查询入账的支取归还信息">
+        <sql type="oracle"><![CDATA[select * 
+from kfmb_zqghht
+where farendma=#farendma#
+and scxcheth=#scxcheth#  
+and zqghztai='2'  
+order by zqghheth]]></sql>
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="TaDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="scxcheth" ref="AcDict.Dict.scxcheth" jdbcType="VARCHAR" javaType="BaseType.U_HTONGHAO" mode="in" longname="上存下拆合同号" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="FmManage.kfmb_zqghht"/>
+    </select>
+    <select cache="none" method="selectOne" type="sql" id="sel_kfab_kjcshu_by_canshu" longname="根据货币代号、存期、资金量等参数查询会计参数表">
+        <sql type="oracle"><![CDATA[select   lilvvvbh    from  kfab_kjcshu   where  farendma = #farendma#  
+      and  huobdaih=#huobdaih#   and  cunqiiii = #cunqiiii#  and  zijinlng = #zijinlng#   and yewuzngl = #yewuzngl#]]></sql>
+        <parameterMap class="java.util.Map">
+            <parameter property="farendma" ref="TaDict.Dict.farendma" jdbcType="VARCHAR" javaType="BaseType.U_FARENDMA" mode="in" longname="法人代码" parameterType="condition"/>
+            <parameter property="huobdaih" ref="TaDict.Dict.huobdaih" jdbcType="VARCHAR" javaType="BaseEnumType.E_HUOBDAIH" mode="in" longname="货币代号" parameterType="condition"/>
+            <parameter property="cunqiiii" ref="TaDict.Dict.cunqiiii" jdbcType="VARCHAR" javaType="BaseEnumType.E_CUNQIIII" mode="in" longname="存期" parameterType="condition"/>
+            <parameter property="zijinlng" ref="TaDict.Dict.zijinlng" jdbcType="VARCHAR" javaType="BaseType.U_ZHANGHYE" mode="in" longname="资金量" parameterType="condition"/>
+            <parameter property="yewuzngl" ref="TaDict.Dict.yewuzngl" jdbcType="VARCHAR" javaType="BaseType.U_LEIXIN10" mode="in" longname="业务种类" parameterType="condition"/>
+        </parameterMap>
+        <resultMap class="java.lang.String"/>
+    </select>
+</sqls>

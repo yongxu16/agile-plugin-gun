@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<xs:element name="schema">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="description" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="complexType" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="classgen" use="optional" type="xs:string" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="package" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="complexType">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="element" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="description" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="odbindexes" />
+			</xs:choice>
+			<xs:attribute name="abstract" use="optional" type="xs:boolean" />
+			<xs:attribute name="dict" use="optional" type="xs:boolean" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="introduct" use="optional" type="xs:boolean" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="tags" use="optional" type="xs:string" />
+			<xs:attribute name="extension" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="element">
+		<xs:complexType>
+			<xs:attribute name="allowSubType" use="optional" type="xs:boolean" />
+			<xs:attribute name="array" use="optional" type="xs:boolean" />
+			<xs:attribute name="final" use="optional" type="xs:boolean" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="multi" use="optional" type="xs:boolean" />
+			<xs:attribute name="override" use="optional" type="xs:boolean" />
+			<xs:attribute name="range" use="optional" type="xs:boolean" />
+			<xs:attribute name="ref" use="optional" type="xs:string" />
+			<xs:attribute name="required" use="optional" type="xs:boolean" />
+			<xs:attribute name="type" use="optional" type="xs:string" />
+			<xs:attribute name="desc" use="optional" type="xs:string" />
+			<xs:attribute name="default" use="optional" type="xs:string" />
+			<xs:attribute name="key" use="optional" type="xs:boolean" />
+			<xs:attribute name="fixed" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="odbindexes">
+		<xs:complexType>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="description" type="xs:string" />
+</xs:schema>

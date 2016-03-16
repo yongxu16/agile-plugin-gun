@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<xs:element name="schema">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="description" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="table" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="restrictionType" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="classgen" use="optional" type="xs:string" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="package" use="optional" />
+			<xs:attribute name="desc" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="table">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" ref="fields" />
+				<xs:element minOccurs="0" ref="dbSequence" />
+				<xs:element minOccurs="0" ref="odbindexes" />
+				<xs:element minOccurs="0" ref="indexes" />
+				<xs:element minOccurs="0" ref="description" />
+				<xs:element minOccurs="0" ref="sqls" />
+			</xs:sequence>
+			<xs:attribute name="abstract" use="optional" type="xs:string" />
+			<xs:attribute name="category" use="optional" type="xs:string" />
+			<xs:attribute name="changelog" type="xs:string" />
+			<xs:attribute name="extension" use="optional" type="xs:string" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="name" use="optional" type="xs:string" />
+			<xs:attribute name="virtual" use="optional" type="xs:string" />
+			<xs:attribute name="param" use="optional" type="xs:string" />
+			<xs:attribute name="datasource" use="optional" type="xs:string" />
+			<xs:attribute name="tags" use="optional" type="xs:string" />
+			<xs:attribute name="desc" use="optional" type="xs:string" />
+			<xs:attribute name="class" use="optional" type="xs:string" />
+			<xs:attribute name="store" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="fields">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" ref="field" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="field">
+		<xs:complexType>
+			<xs:attribute name="allowSubType" use="optional" type="xs:string" />
+			<xs:attribute name="final" use="optional" type="xs:string" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="identity" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="nullable" use="optional" type="xs:string" />
+			<xs:attribute name="primarykey" use="optional" type="xs:string" />
+			<xs:attribute name="ref" use="optional" type="xs:string" />
+			<xs:attribute name="type" use="optional" type="xs:string" />
+			<xs:attribute name="desc" use="optional" type="xs:string" />
+			<xs:attribute name="default" use="optional" type="xs:string" />
+			<xs:attribute name="length" use="optional" type="xs:string" />
+			<xs:attribute name="encryptType" use="optional" type="xs:string" />
+			<xs:attribute name="encryptFactor" use="optional" type="xs:string" />
+			<xs:attribute name="property" use="optional" type="xs:string" />
+			<xs:attribute name="multi" use="optional" type="xs:string" />
+
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="dbSequence">
+		<xs:complexType>
+			<xs:attribute name="cache" use="optional" type="xs:string" />
+			<xs:attribute name="cycle" use="optional" type="xs:string" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="incrementBy" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="maxValue" use="optional" type="xs:string" />
+			<xs:attribute name="minValue" use="optional" type="xs:string" />
+			<xs:attribute name="startWith" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="odbindexes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="index" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="indexes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="index" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="description" type="xs:string" />
+	<xs:element name="index">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" ref="ddls" />
+			</xs:sequence>
+			<xs:attribute name="cache" type="xs:string" />
+			<xs:attribute name="fields" use="optional" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" type="xs:string" />
+			<xs:attribute name="operate" />
+			<xs:attribute name="type" use="optional" type="xs:string" />
+			<xs:attribute name="wildcard" use="optional" type="xs:string" />
+			<xs:attribute name="sort" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ddls">
+		<xs:complexType />
+	</xs:element>
+	<xs:element name="sqls">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" ref="select" />
+					<xs:element minOccurs="0" ref="insert" />
+					<xs:element minOccurs="0" ref="update" />
+					<xs:element minOccurs="0" ref="delete" />
+					<xs:element minOccurs="0" ref="procedure" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="package" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="where">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="str" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="or" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="and" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="if" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="type" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="and">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="str" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="if" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="or" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="and" />
+			</xs:choice>
+			<xs:attribute name="type" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="if">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="str" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="or" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="and" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="if" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="where" />
+			</xs:choice>
+			<xs:attribute name="test" use="optional" />
+			<xs:attribute name="type" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="or">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="str" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="or" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="and" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="if" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="type" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="select">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" ref="sql" />
+					<xs:element minOccurs="0" ref="parameterMap" />
+					<xs:element minOccurs="0" ref="resultMap" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="cache" use="optional" type="xs:string" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" />
+			<xs:attribute name="method" use="optional" type="xs:string" />
+			<xs:attribute name="type" use="optional" type="xs:string" />
+			<xs:attribute name="datasource" use="optional" type="xs:string" />
+			<xs:attribute name="nullException" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="sql">
+		<xs:complexType mixed="true">
+			<xs:attribute name="desc" type="xs:string" />
+			<xs:attribute name="type" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="parameterMap">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="parameter" />
+			</xs:sequence>
+			<xs:attribute name="class" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="parameter">
+		<xs:complexType>
+			<xs:attribute name="javaType" use="optional" type="xs:string" />
+			<xs:attribute name="jdbcType" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="mode" use="optional" type="xs:string" />
+			<xs:attribute name="parameterType" use="optional" type="xs:string" />
+			<xs:attribute name="property" use="optional" type="xs:string" />
+			<xs:attribute name="ref" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="insert">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" ref="sql" />
+				<xs:element minOccurs="0" ref="parameterMap" />
+			</xs:sequence>
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="datasource" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="resultMap">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="result" />
+			</xs:sequence>
+			<xs:attribute name="class" use="required" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="str">
+		<xs:complexType mixed="true">
+			<xs:attribute name="type" use="optional" type="xs:string" />
+			<xs:attribute name="test" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="update">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" ref="sql" />
+					<xs:element minOccurs="0" ref="parameterMap" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" />
+			<xs:attribute name="method" use="optional" type="xs:string" />
+			<xs:attribute name="datasource" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="delete">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" ref="sql" />
+					<xs:element minOccurs="0" ref="parameterMap" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="method" use="optional" type="xs:string" />
+			<xs:attribute name="datasource" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="procedure">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" ref="sql" />
+					<xs:element minOccurs="0" ref="parameterMap" />
+					<xs:element minOccurs="0" ref="resultMap" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="method" use="optional" type="xs:string" />
+			<xs:attribute name="implType" use="optional" type="xs:string" />
+			<xs:attribute name="datasource" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="result">
+		<xs:complexType>
+			<xs:attribute name="column" use="optional" type="xs:string" />
+			<xs:attribute name="javaType" use="optional" type="xs:string" />
+			<xs:attribute name="jdbcType" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="property" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="restrictionType">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="enumeration" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="dbEnumProvider" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="base" use="optional" type="xs:string" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="maxLength" use="optional" type="xs:string" />
+			<xs:attribute name="desc" use="optional" type="xs:string" />
+			<xs:attribute name="length" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="enumeration">
+		<xs:complexType>
+			<xs:attribute name="desc" use="optional" type="xs:string" />
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="value" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="dbEnumProvider">
+		<xs:complexType>
+			<xs:attribute name="id" use="optional" type="xs:string" />
+			<xs:attribute name="longname" use="optional" type="xs:string" />
+			<xs:attribute name="namedsql" use="optional" type="xs:string" />
+			<xs:attribute name="value" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
